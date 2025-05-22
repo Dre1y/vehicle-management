@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_DB: vehicle_fleet
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass123
+    ports:
+      - "5430:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
