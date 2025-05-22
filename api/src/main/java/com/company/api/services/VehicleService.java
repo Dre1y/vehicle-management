@@ -43,10 +43,10 @@ public class VehicleService {
 
     public VehicleResponseDTO update(UUID id, VehicleRequestDTO dto) {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Veículo não encontrado"));
-        dto.setModel(vehicle.getModel());
-        dto.setManufacturer(vehicle.getManufacturer());
-        dto.setYear(vehicle.getYear());
-        dto.setPrice(vehicle.getPrice());
+        vehicle.setModel(dto.getModel());
+        vehicle.setManufacturer(dto.getManufacturer());
+        vehicle.setYear(dto.getYear());
+        vehicle.setPrice(dto.getPrice());
 
         return toDTO(vehicleRepository.save(vehicle));
     }
