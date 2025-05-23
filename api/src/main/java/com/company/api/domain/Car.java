@@ -1,6 +1,5 @@
-package com.company.api.domain.car;
+package com.company.api.domain;
 
-import com.company.api.domain.vehicle.Vehicle;
 import com.company.api.enums.FuelType;
 
 import jakarta.persistence.Entity;

@@ -1,6 +1,5 @@
-package com.company.api.DTOS.car;
+package com.company.api.DTOS;
 
-import com.company.api.DTOS.vehicle.VehicleResponseDTO;
 import com.company.api.enums.FuelType;
 
 public class CarResponseDTO extends VehicleResponseDTO {

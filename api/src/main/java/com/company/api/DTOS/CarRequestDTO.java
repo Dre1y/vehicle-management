@@ -1,6 +1,5 @@
-package com.company.api.DTOS.car;
+package com.company.api.DTOS;
 
-import com.company.api.DTOS.vehicle.VehicleRequestDTO;
 import com.company.api.enums.FuelType;
 
 import jakarta.validation.constraints.NotNull;

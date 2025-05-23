@@ -1,4 +1,4 @@
-package com.company.api.domain.vehicle;
+package com.company.api.domain;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.company.api.DTOS.car.CarRequestDTO;
-import com.company.api.DTOS.car.CarResponseDTO;
-import com.company.api.domain.car.Car;
+import com.company.api.DTOS.CarRequestDTO;
+import com.company.api.DTOS.CarResponseDTO;
+import com.company.api.domain.Car;
 import com.company.api.repositories.CarRepository;
 
 import jakarta.persistence.EntityNotFoundException;

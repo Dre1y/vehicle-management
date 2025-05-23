@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.api.DTOS.vehicle.VehicleRequestDTO;
-import com.company.api.DTOS.vehicle.VehicleResponseDTO;
+import com.company.api.DTOS.VehicleRequestDTO;
+import com.company.api.DTOS.VehicleResponseDTO;
 import com.company.api.services.VehicleService;
 
 import lombok.RequiredArgsConstructor;
