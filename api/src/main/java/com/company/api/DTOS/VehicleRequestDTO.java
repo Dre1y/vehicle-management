@@ -1,22 +1,24 @@
-package com.company.api.DTOS.vehicle;
+package com.company.api.DTOS;
 
 import java.math.BigDecimal;
 
-public class VehicleResponseDTO {
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
-    private String id;
+public class VehicleRequestDTO {
+
+    @NotNull(message = "Modelo é obrigatório")
     private String model;
+
+    @NotNull(message = "Fabricante é obrigatório")
     private String manufacturer;
+
+    @NotNull(message = "Ano é obrigatório")
     private String year;
+
+    @NotNull(message = "Preço é obrigatório")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Preço deve ser positivo")
     private BigDecimal price;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getModel() {
         return model;

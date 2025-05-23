@@ -16,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.api.DTOS.VehicleRequestDTO;
-import com.company.api.DTOS.VehicleResponseDTO;
-import com.company.api.services.VehicleService;
+import com.company.api.DTOS.CarRequestDTO;
+import com.company.api.DTOS.CarResponseDTO;
+import com.company.api.services.CarService;
 
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/vehicles")
+@RequestMapping("/api/cars")
 @RequiredArgsConstructor
-public class VehicleController {
+public class CarController {
 
-    private final VehicleService vehicleService;
+    private final CarService carService;
 
     @PostMapping
-    public ResponseEntity<VehicleResponseDTO> create(@RequestBody @Validated VehicleRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(vehicleService.create(dto));
+    public ResponseEntity<CarResponseDTO> create(@RequestBody @Validated CarRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(carService.create(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VehicleResponseDTO> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(vehicleService.getById(id));
+    public ResponseEntity<CarResponseDTO> getById(@PathVariable UUID id) {
+        return ResponseEntity.ok(carService.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<VehicleResponseDTO>> getAll() {
-        return ResponseEntity.ok(vehicleService.getAll());
+    public ResponseEntity<List<CarResponseDTO>> getAll() {
+        return ResponseEntity.ok(carService.getAll());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VehicleResponseDTO> update(@PathVariable UUID id, @RequestBody @Validated VehicleRequestDTO dto) {
-        return ResponseEntity.ok(vehicleService.update(id, dto));
+    public ResponseEntity<CarResponseDTO> update(@PathVariable UUID id, @RequestBody @Validated CarRequestDTO dto) {
+        return ResponseEntity.ok(carService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<VehicleResponseDTO> delete(@PathVariable UUID id) {
-        vehicleService.delete(id);
+    public ResponseEntity<CarResponseDTO> delete(@PathVariable UUID id) {
+        carService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

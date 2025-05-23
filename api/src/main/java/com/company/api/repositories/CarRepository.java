@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.company.api.domain.Vehicle;
+import com.company.api.domain.Car;
 
-public interface VehicleRepository extends JpaRepository<Vehicle, UUID> {
+public interface CarRepository extends JpaRepository<Car, UUID> {
 
 }
