@@ -25,8 +25,8 @@ public class CarService {
         car.setManufacturer(dto.getManufacturer());
         car.setYear(dto.getYear());
         car.setPrice(dto.getPrice());
-        car.setDoor_quantity(dto.getDoorQuantity());
-        car.setFuel_type(dto.getFuelType());
+        car.setDoorQuantity(dto.getDoorQuantity());
+        car.setFuelType(dto.getFuelType());
 
         car = carRepository.save(car);
 
@@ -48,8 +48,8 @@ public class CarService {
         car.setManufacturer(dto.getManufacturer());
         car.setYear(dto.getYear());
         car.setPrice(dto.getPrice());
-        car.setDoor_quantity(dto.getDoorQuantity());
-        car.setFuel_type(dto.getFuelType());
+        car.setDoorQuantity(dto.getDoorQuantity());
+        car.setFuelType(dto.getFuelType());
 
         return toDTO(carRepository.save(car));
     }
@@ -65,8 +65,8 @@ public class CarService {
         dto.setManufacturer(car.getManufacturer());
         dto.setYear(car.getYear());
         dto.setPrice(car.getPrice());
-        dto.setDoorQuantity(car.getDoor_quantity());
-        dto.setFuelType(car.getFuel_type());
+        dto.setDoorQuantity(car.getDoorQuantity());
+        dto.setFuelType(car.getFuelType());
 
         return dto;
     }
