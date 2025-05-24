@@ -29,6 +29,8 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
   const createCar = useCarDataMutate();
   const updateCar = useCarDataUpdate();
 
+  const isLoading = createCar.isLoading || updateCar.isLoading;
+
   const handleSubmit = () => {
     const payload: ICarDTO = {
       model,
@@ -40,12 +42,13 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
     };
 
     if (isEdit && defaultValues?.id) {
-      updateCar.mutate({ ...payload, id: defaultValues.id });
+      updateCar.mutate(
+        { ...payload, id: defaultValues.id },
+        { onSuccess: onClose }
+      );
     } else {
-      createCar.mutate(payload);
+      createCar.mutate(payload, { onSuccess: onClose });
     }
-
-    onClose();
   };
 
   useEffect(() => {
@@ -68,50 +71,77 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="bg-zinc-900 text-white rounded-lg max-w-md mx-auto">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-2xl font-bold">
             {isEdit ? "Editar Carro" : "Cadastrar Carro"}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!isLoading) handleSubmit();
+          }}
+          className="space-y-5"
+        >
           <Input
-            placeholder="Modelo"
+            placeholder="Modelo do carro"
             value={model}
             onChange={(e) => setModel(e.target.value)}
+            required
+            autoFocus
           />
           <Input
             placeholder="Fabricante"
             value={manufacturer}
             onChange={(e) => setManufacturer(e.target.value)}
+            required
           />
           <Input
-            placeholder="Ano"
+            placeholder="Ano de fabricação"
             value={year}
             onChange={(e) => setYear(e.target.value)}
+            maxLength={4}
+            required
           />
           <Input
-            placeholder="Preço"
+            placeholder="Preço (R$)"
             type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            min={0}
+            required
           />
           <Input
             placeholder="Quantidade de portas"
             type="number"
             value={doorQuantity}
             onChange={(e) => setDoorQuantity(Number(e.target.value))}
+            min={0}
+            required
           />
           <Input
             placeholder="Tipo de combustível"
             value={fuelType}
             onChange={(e) => setFuelType(e.target.value)}
+            required
           />
-          <Button onClick={handleSubmit}>
-            {isEdit ? "Salvar alterações" : "Cadastrar"}
+
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-zinc-700 hover:bg-zinc-600 transition-colors"
+          >
+            {isLoading
+              ? isEdit
+                ? "Salvando..."
+                : "Cadastrando..."
+              : isEdit
+              ? "Salvar alterações"
+              : "Cadastrar"}
           </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
