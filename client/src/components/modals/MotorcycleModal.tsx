@@ -13,7 +13,8 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onSave: (data: IMotorcycleDTO) => void;
-  defaultValues?: IMotorcycleDTO;
+  defaultValues?: IMotorcycleDTO | null;
+  isLoading?: boolean;
 }
 
 export function MotorcycleModal({
@@ -21,6 +22,7 @@ export function MotorcycleModal({
   onClose,
   onSave,
   defaultValues,
+  isLoading = false,
 }: Props) {
   const [form, setForm] = useState<IMotorcycleDTO>({
     model: "",
@@ -45,59 +47,87 @@ export function MotorcycleModal({
   }, [defaultValues]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === "year" ? Number(value) : value,
+      [name]: type === "number" ? Number(value) : value,
     }));
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isLoading) onSave(form);
+  };
+
+  const isEdit = Boolean(defaultValues?.id);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="bg-zinc-900 text-white rounded-lg max-w-md mx-auto">
         <DialogHeader>
-          <DialogTitle>
-            {defaultValues ? "Editar Moto" : "Adicionar Moto"}
+          <DialogTitle className="text-2xl font-bold">
+            {isEdit ? "Editar Moto" : "Adicionar Moto"}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-2">
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <Input
-            placeholder="Modelo"
+            placeholder="Modelo da moto"
             name="model"
             value={form.model}
             onChange={handleChange}
+            required
+            autoFocus
           />
           <Input
             placeholder="Fabricante"
             name="manufacturer"
             value={form.manufacturer}
             onChange={handleChange}
+            required
           />
           <Input
-            placeholder="Ano"
+            placeholder="Ano de fabricação"
             name="year"
             type="number"
             value={form.year}
             onChange={handleChange}
+            min={1900}
+            max={2100}
+            required
           />
           <Input
-            placeholder="Preço"
+            placeholder="Preço (R$)"
             name="price"
             type="number"
             value={form.price}
             onChange={handleChange}
+            min={0}
+            required
           />
           <Input
-            placeholder="Cilindrada"
+            placeholder="Cilindrada (cc)"
             name="engineDisplacement"
             type="number"
             value={form.engineDisplacement}
             onChange={handleChange}
+            min={0}
+            required
           />
-          <Button onClick={() => onSave(form)}>
-            {defaultValues ? "Salvar" : "Criar"}
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-zinc-700 hover:bg-zinc-600 transition-colors"
+          >
+            {isLoading
+              ? isEdit
+                ? "Salvando..."
+                : "Criando..."
+              : isEdit
+              ? "Salvar alterações"
+              : "Cadastrar"}
           </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

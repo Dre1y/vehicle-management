@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { CarFront, Bike } from "lucide-react";
+import { Rocket } from "lucide-react";
 
 function App() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function App() {
         <Card className="bg-zinc-900 border border-zinc-700 shadow-2xl rounded-2xl">
           <CardHeader className="text-center space-y-2">
             <CardTitle className="text-3xl font-extrabold">
+              <Rocket className="inline-block w-8 h-8 mr-2" />
               Gerenciador de Veículos
             </CardTitle>
             <p className="text-sm text-zinc-400">
