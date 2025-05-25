@@ -36,6 +36,12 @@ cd client
 npm install & npm run dev
 ```
 
+### 6️⃣ (Opcional) Visualizar rotas da API através do Swagger
+
+```sh
+http://localhost:8080/swagger-ui.html
+```
+
 ## 🎯 Padronização de Commits
 
 Para manter um histórico organizado e compreensível, segui a convenção abaixo ao realizar commits:
