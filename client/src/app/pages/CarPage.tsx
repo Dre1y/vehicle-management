@@ -5,7 +5,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { ICarDTO } from "@/core/interfaces/ICarDTO";
 import { motion } from "framer-motion";
-import { CarFront } from "lucide-react";
+import { CarFront, Loader2, Inbox, Home, Bike } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CarPage = () => {
   const { data: cars, isLoading } = useCarData();
@@ -23,7 +24,7 @@ const CarPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white p-6">
+    <div className="min-h-screen bg-zinc-950 text-white p-6 relative">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -46,9 +47,17 @@ const CarPage = () => {
         </div>
 
         {isLoading ? (
-          <p className="text-zinc-400">Carregando carros...</p>
+          <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+            <Loader2 className="animate-spin w-8 h-8 mb-3" />
+            <p>Carregando carros...</p>
+          </div>
+        ) : cars && cars.length > 0 ? (
+          <CarTable data={cars} onEdit={handleEdit} />
         ) : (
-          <CarTable data={cars || []} onEdit={handleEdit} />
+          <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+            <Inbox className="w-10 h-10 mb-3" />
+            <p>Nenhum carro cadastrado ainda.</p>
+          </div>
         )}
 
         <CarModal
@@ -57,6 +66,24 @@ const CarPage = () => {
           defaultValues={selectedCar}
         />
       </motion.div>
+
+      <div className="fixed bottom-4 left-4">
+        <Link to="/">
+          <Button className="bg-zinc-800 hover:bg-zinc-700 text-white flex items-center gap-2">
+            <Home className="w-4 h-4" />
+            Início
+          </Button>
+        </Link>
+      </div>
+
+      <div className="fixed bottom-4 right-4">
+        <Link to="/motorcycles">
+          <Button className="bg-zinc-800 hover:bg-zinc-700 text-white flex items-center gap-2">
+            <Bike className="w-4 h-4" />
+            Motos
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };
