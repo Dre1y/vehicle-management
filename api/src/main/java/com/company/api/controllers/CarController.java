@@ -20,12 +20,14 @@ import com.company.api.DTOS.CarRequestDTO;
 import com.company.api.DTOS.CarResponseDTO;
 import com.company.api.services.CarService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/cars")
 @RequiredArgsConstructor
+@Tag(name = "Carro")
 public class CarController {
 
     private final CarService carService;
