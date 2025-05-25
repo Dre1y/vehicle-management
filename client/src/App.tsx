@@ -33,7 +33,7 @@ function App() {
             >
               <Button
                 variant="outline"
-                className="w-full border-zinc-600 text-white flex items-center gap-2 hover:bg-zinc-800"
+                className="w-full flex-items-center bg-zinc-700 hover:bg-zinc-600 transition-colors"
                 onClick={() => navigate("/cars")}
               >
                 <CarFront className="w-5 h-5" />
@@ -46,7 +46,7 @@ function App() {
             >
               <Button
                 variant="outline"
-                className="w-full border-zinc-600 text-white flex items-center gap-2 hover:bg-zinc-800"
+                className="w-full flex-items-center bg-zinc-700 hover:bg-zinc-600 transition-colors"
                 onClick={() => navigate("/motorcycles")}
               >
                 <Bike className="w-5 h-5" />
