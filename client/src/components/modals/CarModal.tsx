@@ -9,6 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface CarModalProps {
   open: boolean;
@@ -21,7 +28,7 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
   const [manufacturer, setManufacturer] = useState("");
   const [year, setYear] = useState("");
   const [price, setPrice] = useState("");
-  const [doorQuantity, setDoorQuantity] = useState(0);
+  const [doorQuantity, setDoorQuantity] = useState("");
   const [fuelType, setFuelType] = useState("");
 
   const isEdit = Boolean(defaultValues?.id);
@@ -32,12 +39,17 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
   const isLoading = createCar.isLoading || updateCar.isLoading;
 
   const handleSubmit = () => {
+    if (!fuelType) {
+      alert("Por favor, selecione o tipo de combustível.");
+      return;
+    }
+
     const payload: ICarDTO = {
       model,
       manufacturer,
       year,
       price: Number(price),
-      doorQuantity,
+      doorQuantity: Number(doorQuantity),
       fuelType,
     };
 
@@ -57,14 +69,14 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
       setManufacturer(defaultValues.manufacturer);
       setYear(defaultValues.year);
       setPrice(String(defaultValues.price));
-      setDoorQuantity(defaultValues.doorQuantity);
+      setDoorQuantity(String(defaultValues.doorQuantity));
       setFuelType(defaultValues.fuelType);
     } else {
       setModel("");
       setManufacturer("");
       setYear("");
       setPrice("");
-      setDoorQuantity(0);
+      setDoorQuantity("");
       setFuelType("");
     }
   }, [defaultValues]);
@@ -117,16 +129,21 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
             placeholder="Quantidade de portas"
             type="number"
             value={doorQuantity}
-            onChange={(e) => setDoorQuantity(Number(e.target.value))}
+            onChange={(e) => setDoorQuantity(e.target.value)}
             min={0}
             required
           />
-          <Input
-            placeholder="Tipo de combustível"
-            value={fuelType}
-            onChange={(e) => setFuelType(e.target.value)}
-            required
-          />
+          <Select value={fuelType} onValueChange={setFuelType}>
+            <SelectTrigger className="w-full bg-zinc-800 border-zinc-700 text-white">
+              <SelectValue placeholder="Tipo de combustível" />
+            </SelectTrigger>
+            <SelectContent className="bg-zinc-800 text-white border-zinc-700">
+              <SelectItem value="GASOLINE">Gasolina</SelectItem>
+              <SelectItem value="ETHANOL">Etanol</SelectItem>
+              <SelectItem value="DIESEL">Diesel</SelectItem>
+              <SelectItem value="FLEX">Flex</SelectItem>
+            </SelectContent>
+          </Select>
 
           <Button
             type="submit"

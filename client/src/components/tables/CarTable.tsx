@@ -36,10 +36,16 @@ export const CarTable = ({ data, onEdit }: CarTableProps) => {
               <td className="p-3">{car.year}</td>
               <td className="p-3">R$ {Number(car.price).toFixed(2)}</td>
               <td className="p-3">{car.doorQuantity}</td>
-              <td className="p-3">{car.fuelType}</td>
+              <td className="p-3">
+                {car.fuelType.charAt(0).toUpperCase() +
+                  car.fuelType.slice(1).toLowerCase()}
+              </td>
               <td className="p-3">
                 <div className="flex gap-2">
-                  <Button variant="outline" onClick={() => onEdit(car)}>
+                  <Button
+                    className="bg-zinc-700 hover:bg-zinc-600 transition-colors"
+                    onClick={() => onEdit(car)}
+                  >
                     Editar
                   </Button>
                   <Button
