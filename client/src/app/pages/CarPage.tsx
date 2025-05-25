@@ -1,17 +1,23 @@
 import { useCarData } from "@/core/hooks/useCar";
 import { CarTable } from "@/components/tables/CarTable";
 import { CarModal } from "@/components/modals/CarModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import type { ICarDTO } from "@/core/interfaces/ICarDTO";
 import { motion } from "framer-motion";
 import { CarFront, Loader2, Inbox, Home, Bike } from "lucide-react";
 import { Link } from "react-router-dom";
+import { FilterBar } from "@/components/widgets/FilterBar";
 
 const CarPage = () => {
   const { data: cars, isLoading } = useCarData();
   const [open, setOpen] = useState(false);
   const [selectedCar, setSelectedCar] = useState<ICarDTO | null>(null);
+  const [filteredCars, setFilteredCars] = useState<ICarDTO[]>([]);
+
+  useEffect(() => {
+    if (cars) setFilteredCars(cars);
+  }, [cars]);
 
   const handleCreate = () => {
     setSelectedCar(null);
@@ -21,6 +27,28 @@ const CarPage = () => {
   const handleEdit = (car: ICarDTO) => {
     setSelectedCar(car);
     setOpen(true);
+  };
+
+  const handleFilter = (filters: {
+    model: string;
+    manufacturer: string;
+    year: string;
+  }) => {
+    if (!cars) return;
+
+    const filtered = cars.filter((car) => {
+      return (
+        (filters.model === "" ||
+          car.model.toLowerCase().includes(filters.model.toLowerCase())) &&
+        (filters.manufacturer === "" ||
+          car.manufacturer
+            .toLowerCase()
+            .includes(filters.manufacturer.toLowerCase())) &&
+        (filters.year === "" || String(car.year).includes(filters.year))
+      );
+    });
+
+    setFilteredCars(filtered);
   };
 
   return (
@@ -46,13 +74,15 @@ const CarPage = () => {
           </Button>
         </div>
 
+        <FilterBar onFilter={handleFilter} />
+
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
             <Loader2 className="animate-spin w-8 h-8 mb-3" />
             <p>Carregando carros...</p>
           </div>
-        ) : cars && cars.length > 0 ? (
-          <CarTable data={cars} onEdit={handleEdit} />
+        ) : filteredCars.length > 0 ? (
+          <CarTable data={filteredCars} onEdit={handleEdit} />
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
             <Inbox className="w-10 h-10 mb-3" />

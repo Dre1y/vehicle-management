@@ -4,7 +4,7 @@ import {
   useUpdateMotorcycle,
   useDeleteMotorcycle,
 } from "@/core/hooks/useMotorcycle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MotorcycleTable } from "@/components/tables/MotorcycleTable";
 import { MotorcycleModal } from "@/components/modals/MotorcycleModal";
 import type { IMotorcycleDTO } from "@/core/interfaces/IMotorcycleDTO";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Bike, Loader2, Inbox, Home, CarFront } from "lucide-react";
 import { Link } from "react-router-dom";
+import { FilterBar } from "@/components/widgets/FilterBar";
 
 export default function MotorcyclePage() {
   const { data: motorcycles, isLoading } = useMotorcycleData();
@@ -21,6 +22,11 @@ export default function MotorcyclePage() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState<IMotorcycleDTO | undefined>();
+  const [filteredMotorcycles, setFilteredMotorcycles] = useState<ICarDTO[]>([]);
+
+  useEffect(() => {
+    if (motorcycles) setFilteredMotorcycles(motorcycles);
+  }, [motorcycles]);
 
   const handleSave = (moto: IMotorcycleDTO) => {
     if (selected?.id) {
@@ -50,6 +56,30 @@ export default function MotorcyclePage() {
     setModalOpen(true);
   };
 
+  const handleFilter = (filters: {
+    model: string;
+    manufacturer: string;
+    year: string;
+  }) => {
+    if (!motorcycles) return;
+
+    const filtered = motorcycles.filter((motorcycle) => {
+      return (
+        (filters.model === "" ||
+          motorcycle.model
+            .toLowerCase()
+            .includes(filters.model.toLowerCase())) &&
+        (filters.manufacturer === "" ||
+          motorcycle.manufacturer
+            .toLowerCase()
+            .includes(filters.manufacturer.toLowerCase())) &&
+        (filters.year === "" || String(motorcycle.year).includes(filters.year))
+      );
+    });
+
+    setFilteredMotorcycles(filtered);
+  };
+
   const isSaving = createMutation.isLoading || updateMutation.isLoading;
 
   return (
@@ -75,14 +105,16 @@ export default function MotorcyclePage() {
           </Button>
         </div>
 
+        <FilterBar onFilter={handleFilter} />
+
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
             <Loader2 className="animate-spin w-8 h-8 mb-3" />
             <p>Carregando motos...</p>
           </div>
-        ) : motorcycles && motorcycles.length > 0 ? (
+        ) : filteredMotorcycles.length > 0 ? (
           <MotorcycleTable
-            data={motorcycles}
+            data={filteredMotorcycles}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
@@ -105,7 +137,6 @@ export default function MotorcyclePage() {
         />
       </motion.div>
 
-      {/* Botão para voltar à tela inicial */}
       <div className="fixed bottom-4 left-4">
         <Link to="/">
           <Button className="bg-zinc-800 hover:bg-zinc-700 text-white flex items-center gap-2">
@@ -115,7 +146,6 @@ export default function MotorcyclePage() {
         </Link>
       </div>
 
-      {/* Botão para ir à tela de carros */}
       <div className="fixed bottom-4 right-4">
         <Link to="/cars">
           <Button className="bg-zinc-800 hover:bg-zinc-700 text-white flex items-center gap-2">
