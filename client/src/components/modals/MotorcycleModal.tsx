@@ -28,35 +28,45 @@ export function MotorcycleModal({
     model: "",
     manufacturer: "",
     year: "",
-    price: 0,
-    engineDisplacement: 0,
+    price: "",
+    engineDisplacement: "",
   });
 
   useEffect(() => {
     if (defaultValues) {
-      setForm(defaultValues);
+      setForm({
+        ...defaultValues,
+        price: defaultValues.price?.toString() ?? "",
+        engineDisplacement: defaultValues.engineDisplacement?.toString() ?? "",
+      });
     } else {
       setForm({
         model: "",
         manufacturer: "",
         year: "",
-        price: 0,
-        engineDisplacement: 0,
+        price: "",
+        engineDisplacement: "",
       });
     }
   }, [defaultValues]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: type === "number" ? Number(value) : value,
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLoading) onSave(form);
+    if (!isLoading) {
+      onSave({
+        ...form,
+        price: Number(form.price),
+        engineDisplacement: Number(form.engineDisplacement),
+      });
+    }
   };
 
   const isEdit = Boolean(defaultValues?.id);
@@ -92,8 +102,6 @@ export function MotorcycleModal({
             type="number"
             value={form.year}
             onChange={handleChange}
-            min={1900}
-            max={2100}
             required
           />
           <Input

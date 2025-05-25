@@ -16,12 +16,12 @@ export const MotorcycleTable = ({ data, onEdit }: MotorcycleTableProps) => {
       <table className="w-full table-auto border-collapse text-sm text-white">
         <thead className="bg-zinc-800 text-zinc-300">
           <tr>
-            <th className="p-3">Modelo</th>
-            <th className="p-3">Fabricante</th>
-            <th className="p-3">Ano</th>
-            <th className="p-3">Preço</th>
-            <th className="p-3">Cilindrada</th>
-            <th className="p-3">Ações</th>
+            <th className="p-3 text-left">Modelo</th>
+            <th className="p-3 text-left">Fabricante</th>
+            <th className="p-3 text-left">Ano</th>
+            <th className="p-3 text-right">Preço</th>
+            <th className="p-3 text-right">Cilindrada</th>
+            <th className="p-3 text-left">Ações</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-zinc-700 bg-zinc-900">
@@ -30,14 +30,19 @@ export const MotorcycleTable = ({ data, onEdit }: MotorcycleTableProps) => {
               key={moto.id}
               className="hover:bg-zinc-800 transition-colors duration-200"
             >
-              <td className="p-3">{moto.model}</td>
-              <td className="p-3">{moto.manufacturer}</td>
-              <td className="p-3">{moto.year}</td>
-              <td className="p-3">R$ {Number(moto.price).toFixed(2)}</td>
-              <td className="p-3">{moto.engineDisplacement} cc</td>
-              <td className="p-3">
+              <td className="p-3 text-left">{moto.model}</td>
+              <td className="p-3 text-left">{moto.manufacturer}</td>
+              <td className="p-3 text-left">{moto.year}</td>
+              <td className="p-3 text-right">
+                R$ {Number(moto.price).toFixed(2)}
+              </td>
+              <td className="p-3 text-right">{moto.engineDisplacement} cc</td>
+              <td className="p-3 text-left">
                 <div className="flex gap-2">
-                  <Button variant="outline" onClick={() => onEdit(moto)}>
+                  <Button
+                    className="bg-zinc-700 hover:bg-zinc-600 transition-colors"
+                    onClick={() => onEdit(moto)}
+                  >
                     Editar
                   </Button>
                   <Button
