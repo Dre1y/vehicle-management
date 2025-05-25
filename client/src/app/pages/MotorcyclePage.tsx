@@ -10,7 +10,8 @@ import { MotorcycleModal } from "@/components/modals/MotorcycleModal";
 import type { IMotorcycleDTO } from "@/core/interfaces/IMotorcycleDTO";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Bike } from "lucide-react";
+import { Bike, Loader2, Inbox, Home, CarFront } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function MotorcyclePage() {
   const { data: motorcycles, isLoading } = useMotorcycleData();
@@ -52,7 +53,7 @@ export default function MotorcyclePage() {
   const isSaving = createMutation.isLoading || updateMutation.isLoading;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white p-6">
+    <div className="min-h-screen bg-zinc-950 text-white p-6 relative">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,13 +76,21 @@ export default function MotorcyclePage() {
         </div>
 
         {isLoading ? (
-          <p className="text-zinc-400">Carregando motos...</p>
-        ) : (
+          <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+            <Loader2 className="animate-spin w-8 h-8 mb-3" />
+            <p>Carregando motos...</p>
+          </div>
+        ) : motorcycles && motorcycles.length > 0 ? (
           <MotorcycleTable
-            data={motorcycles || []}
+            data={motorcycles}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+            <Inbox className="w-10 h-10 mb-3" />
+            <p>Nenhuma moto cadastrada ainda.</p>
+          </div>
         )}
 
         <MotorcycleModal
@@ -95,6 +104,26 @@ export default function MotorcyclePage() {
           isLoading={isSaving}
         />
       </motion.div>
+
+      {/* Botão para voltar à tela inicial */}
+      <div className="fixed bottom-4 left-4">
+        <Link to="/">
+          <Button className="bg-zinc-800 hover:bg-zinc-700 text-white flex items-center gap-2">
+            <Home className="w-4 h-4" />
+            Início
+          </Button>
+        </Link>
+      </div>
+
+      {/* Botão para ir à tela de carros */}
+      <div className="fixed bottom-4 right-4">
+        <Link to="/cars">
+          <Button className="bg-zinc-800 hover:bg-zinc-700 text-white flex items-center gap-2">
+            <CarFront className="w-4 h-4" />
+            Carros
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
