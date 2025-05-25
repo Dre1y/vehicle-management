@@ -19,8 +19,8 @@ export const MotorcycleTable = ({ data, onEdit }: MotorcycleTableProps) => {
             <th className="p-3 text-left">Modelo</th>
             <th className="p-3 text-left">Fabricante</th>
             <th className="p-3 text-left">Ano</th>
-            <th className="p-3 text-right">Preço</th>
-            <th className="p-3 text-right">Cilindrada</th>
+            <th className="p-3 text-left">Preço</th>
+            <th className="p-3 text-left">Cilindrada</th>
             <th className="p-3 text-left">Ações</th>
           </tr>
         </thead>
@@ -30,14 +30,12 @@ export const MotorcycleTable = ({ data, onEdit }: MotorcycleTableProps) => {
               key={moto.id}
               className="hover:bg-zinc-800 transition-colors duration-200"
             >
-              <td className="p-3 text-left">{moto.model}</td>
-              <td className="p-3 text-left">{moto.manufacturer}</td>
-              <td className="p-3 text-left">{moto.year}</td>
-              <td className="p-3 text-right">
-                R$ {Number(moto.price).toFixed(2)}
-              </td>
-              <td className="p-3 text-right">{moto.engineDisplacement} cc</td>
-              <td className="p-3 text-left">
+              <td className="p-3">{moto.model}</td>
+              <td className="p-3">{moto.manufacturer}</td>
+              <td className="p-3">{moto.year}</td>
+              <td className="p-3">R$ {Number(moto.price).toFixed(2)}</td>
+              <td className="p-3">{moto.engineDisplacement} cc</td>
+              <td className="p-3">
                 <div className="flex gap-2">
                   <Button
                     className="bg-zinc-700 hover:bg-zinc-600 transition-colors"
