@@ -18,12 +18,12 @@ function App() {
       >
         <Card className="bg-zinc-900 border border-zinc-700 shadow-2xl rounded-2xl">
           <CardHeader className="text-center space-y-2">
-            <CardTitle className="text-3xl font-extrabold">
+            <CardTitle className="text-3xl text-white font-extrabold">
               <Rocket className="inline-block w-8 h-8 mr-2" />
               Gerenciador de Veículos
             </CardTitle>
             <p className="text-sm text-zinc-400">
-              Escolha abaixo o tipo de veículo que deseja gerenciar.
+              Escolha abaixo o tipo de veículo que você deseja gerenciar.
             </p>
           </CardHeader>
           <CardContent className="space-y-4 px-6 pb-6">
@@ -33,10 +33,10 @@ function App() {
             >
               <Button
                 variant="outline"
-                className="w-full flex-items-center bg-zinc-700 hover:bg-zinc-600 transition-colors"
+                className="w-full flex-items-center text-white bg-zinc-700 hover:bg-zinc-600 transition-colors"
                 onClick={() => navigate("/cars")}
               >
-                <CarFront className="w-5 h-5" />
+                <CarFront className="w-5 h-5 text-white" />
                 Acessar Carros
               </Button>
             </motion.div>
@@ -46,10 +46,10 @@ function App() {
             >
               <Button
                 variant="outline"
-                className="w-full flex-items-center bg-zinc-700 hover:bg-zinc-600 transition-colors"
+                className="w-full flex-items-center text-white bg-zinc-700 hover:bg-zinc-600 transition-colors"
                 onClick={() => navigate("/motorcycles")}
               >
-                <Bike className="w-5 h-5" />
+                <Bike className="w-5 h-5 text-white" />
                 Acessar Motos
               </Button>
             </motion.div>
