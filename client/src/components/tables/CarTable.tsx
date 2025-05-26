@@ -1,16 +1,14 @@
 import { type ICarDTO } from "@/core/interfaces/ICarDTO";
-import { useCarDataDelete } from "@/core/hooks/useCar";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
 interface CarTableProps {
   data: ICarDTO[];
   onEdit(car: ICarDTO): void;
+  onDelete(id: string): void;
 }
 
-export const CarTable = ({ data, onEdit }: CarTableProps) => {
-  const deleteCar = useCarDataDelete();
-
+export const CarTable = ({ data, onEdit, onDelete }: CarTableProps) => {
   const fuelTypePt = {
     GASOLINE: "Gasolina",
     ETHANOL: "Etanol",
@@ -56,7 +54,7 @@ export const CarTable = ({ data, onEdit }: CarTableProps) => {
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={() => deleteCar.mutate(car.id)}
+                    onClick={() => onDelete(car.id)}
                   >
                     <Trash2 size={16} />
                   </Button>

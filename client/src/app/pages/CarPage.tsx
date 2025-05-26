@@ -1,32 +1,103 @@
-import { useCarData } from "@/core/hooks/useCar";
+import {
+  useCarData,
+  useCarDataMutate,
+  useCarDataUpdate,
+  useCarDataDelete,
+} from "@/core/hooks/useCar";
+import { useState, useEffect } from "react";
 import { CarTable } from "@/components/tables/CarTable";
 import { CarModal } from "@/components/modals/CarModal";
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import type { ICarDTO } from "@/core/interfaces/ICarDTO";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { CarFront, Loader2, Inbox, Home, Bike } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FilterBar } from "@/components/widgets/FilterBar";
+import { toast } from "sonner";
 
-const CarPage = () => {
+export default function CarPage() {
   const { data: cars, isLoading } = useCarData();
-  const [open, setOpen] = useState(false);
-  const [selectedCar, setSelectedCar] = useState<ICarDTO | null>(null);
+  const createMutation = useCarDataMutate();
+  const updateMutation = useCarDataUpdate();
+  const deleteMutation = useCarDataDelete();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<ICarDTO | undefined>();
   const [filteredCars, setFilteredCars] = useState<ICarDTO[]>([]);
 
   useEffect(() => {
     if (cars) setFilteredCars(cars);
   }, [cars]);
 
-  const handleCreate = () => {
-    setSelectedCar(null);
-    setOpen(true);
+  const handleSave = (car: ICarDTO) => {
+    if (selectedCar?.id) {
+      updateMutation.mutate(
+        { id: selectedCar.id, ...car },
+        {
+          onSuccess: () => {
+            setModalOpen(false);
+            toast.success("Carro atualizado com sucesso!");
+          },
+          onError: () => {
+            toast.error("Erro ao atualizar o carro.");
+          },
+        }
+      );
+    } else {
+      createMutation.mutate(car, {
+        onSuccess: () => {
+          setModalOpen(false);
+          toast.success("Carro criado com sucesso!");
+        },
+        onError: () => {
+          toast.error("Erro ao criar o carro.");
+        },
+      });
+    }
+    setSelectedCar(undefined);
+  };
+
+  const handleDelete = (id: string) => {
+    toast.custom((t) => (
+      <div className="bg-zinc-900 text-white p-4 rounded-lg shadow-lg flex flex-col gap-3 w-[320px]">
+        <p className="text-sm font-semibold">
+          Deseja realmente excluir este carro?
+        </p>
+        <div className="flex justify-end gap-2">
+          <Button variant="ghost" size="sm" onClick={() => toast.dismiss(t.id)}>
+            Cancelar
+          </Button>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => {
+              deleteMutation.mutate(id, {
+                onSuccess: () => {
+                  toast.success("Carro excluído com sucesso!");
+                  toast.dismiss(t.id);
+                },
+                onError: () => {
+                  toast.error("Erro ao excluir o carro.");
+                  toast.dismiss(t.id);
+                },
+              });
+            }}
+          >
+            Confirmar
+          </Button>
+        </div>
+      </div>
+    ));
   };
 
   const handleEdit = (car: ICarDTO) => {
     setSelectedCar(car);
-    setOpen(true);
+    setModalOpen(true);
+  };
+
+  const handleCreate = () => {
+    setSelectedCar(undefined);
+    setModalOpen(true);
   };
 
   const handleFilter = (filters: {
@@ -50,6 +121,8 @@ const CarPage = () => {
 
     setFilteredCars(filtered);
   };
+
+  const isSaving = createMutation.isLoading || updateMutation.isLoading;
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white p-6 relative">
@@ -82,7 +155,11 @@ const CarPage = () => {
             <p>Carregando carros...</p>
           </div>
         ) : filteredCars.length > 0 ? (
-          <CarTable data={filteredCars} onEdit={handleEdit} />
+          <CarTable
+            data={filteredCars}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
             <Inbox className="w-10 h-10 mb-3" />
@@ -91,9 +168,14 @@ const CarPage = () => {
         )}
 
         <CarModal
-          open={open}
-          onClose={() => setOpen(false)}
+          open={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setSelectedCar(undefined);
+          }}
+          onSave={handleSave}
           defaultValues={selectedCar}
+          isLoading={isSaving}
         />
       </motion.div>
 
@@ -116,6 +198,4 @@ const CarPage = () => {
       </div>
     </div>
   );
-};
-
-export default CarPage;
+}
