@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCarDataMutate, useCarDataUpdate } from "@/core/hooks/useCar";
 import type { ICarDTO } from "@/core/interfaces/ICarDTO";
 import {
   Dialog,
@@ -20,10 +19,18 @@ import {
 interface CarModalProps {
   open: boolean;
   onClose(): void;
+  onSave(car: ICarDTO): void;
   defaultValues?: ICarDTO | null;
+  isLoading?: boolean;
 }
 
-export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
+export const CarModal = ({
+  open,
+  onClose,
+  onSave,
+  defaultValues,
+  isLoading = false,
+}: CarModalProps) => {
   const [model, setModel] = useState("");
   const [manufacturer, setManufacturer] = useState("");
   const [year, setYear] = useState("");
@@ -32,11 +39,6 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
   const [fuelType, setFuelType] = useState("");
 
   const isEdit = Boolean(defaultValues?.id);
-
-  const createCar = useCarDataMutate();
-  const updateCar = useCarDataUpdate();
-
-  const isLoading = createCar.isLoading || updateCar.isLoading;
 
   const handleSubmit = () => {
     if (!fuelType) {
@@ -53,14 +55,7 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
       fuelType,
     };
 
-    if (isEdit && defaultValues?.id) {
-      updateCar.mutate(
-        { ...payload, id: defaultValues.id },
-        { onSuccess: onClose }
-      );
-    } else {
-      createCar.mutate(payload, { onSuccess: onClose });
-    }
+    onSave(payload);
   };
 
   useEffect(() => {
