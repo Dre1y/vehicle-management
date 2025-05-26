@@ -2,13 +2,13 @@ package com.company.api.DTOS;
 
 public class MotorcycleResponseDTO extends VehicleResponseDTO {
 
-    private int engineDisplacement;
+    private Integer engineDisplacement;
 
-    public int getEngineDisplacement() {
+    public Integer getEngineDisplacement() {
         return engineDisplacement;
     }
 
-    public void setEngineDisplacement(int engineDisplacement) {
+    public void setEngineDisplacement(Integer engineDisplacement) {
         this.engineDisplacement = engineDisplacement;
     }
 }

@@ -4,14 +4,14 @@ import com.company.api.enums.FuelType;
 
 public class CarResponseDTO extends VehicleResponseDTO {
 
-    private int doorQuantity;
+    private Integer doorQuantity;
     private FuelType fuelType;
 
-    public int getDoorQuantity() {
+    public Integer getDoorQuantity() {
         return doorQuantity;
     }
 
-    public void setDoorQuantity(int doorQuantity) {
+    public void setDoorQuantity(Integer doorQuantity) {
         this.doorQuantity = doorQuantity;
     }
 
