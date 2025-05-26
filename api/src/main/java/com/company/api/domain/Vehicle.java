@@ -31,7 +31,7 @@ public class Vehicle {
 
     private String manufacturer;
 
-    private String year;
+    private Integer year;
 
     private BigDecimal price;
 }
