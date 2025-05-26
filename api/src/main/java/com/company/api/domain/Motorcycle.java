@@ -15,5 +15,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Motorcycle extends Vehicle {
 
-    private int engineDisplacement;
+    private Integer engineDisplacement;
 }

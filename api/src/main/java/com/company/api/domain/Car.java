@@ -19,7 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Car extends Vehicle {
 
-    private int doorQuantity;
+    private Integer doorQuantity;
 
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;

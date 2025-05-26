@@ -11,16 +11,16 @@ public class CarRequestDTO extends VehicleRequestDTO {
     @NotNull(message = "Quantidade de portas é obrigatória")
     @Min(value = 2, message = "Quantidade mínima de portas é 2")
     @Max(value = 5, message = "Quantidade máxima de portas é 5")
-    private int doorQuantity;
+    private Integer doorQuantity;
 
     @NotNull(message = "Tipo de combustível é obrigatório")
     private FuelType fuelType;
 
-    public int getDoorQuantity() {
+    public Integer getDoorQuantity() {
         return doorQuantity;
     }
 
-    public void setDoorQuantity(int doorQuantity) {
+    public void setDoorQuantity(Integer doorQuantity) {
         this.doorQuantity = doorQuantity;
     }
 
