@@ -47,7 +47,7 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
     const payload: ICarDTO = {
       model,
       manufacturer,
-      year,
+      year: Number(year),
       price: Number(price),
       doorQuantity: Number(doorQuantity),
       fuelType,
@@ -67,7 +67,7 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
     if (defaultValues) {
       setModel(defaultValues.model);
       setManufacturer(defaultValues.manufacturer);
-      setYear(defaultValues.year);
+      setYear(String(defaultValues.year));
       setPrice(String(defaultValues.price));
       setDoorQuantity(String(defaultValues.doorQuantity));
       setFuelType(defaultValues.fuelType);
