@@ -11,6 +11,13 @@ interface CarTableProps {
 export const CarTable = ({ data, onEdit }: CarTableProps) => {
   const deleteCar = useCarDataDelete();
 
+  const fuelTypePt = {
+    GASOLINE: "Gasolina",
+    ETHANOL: "Etanol",
+    DIESEL: "Diesel",
+    FLEX: "Flex",
+  };
+
   return (
     <div className="p-4 overflow-x-auto">
       <table className="w-full table-auto border-collapse text-sm text-white">
@@ -37,8 +44,7 @@ export const CarTable = ({ data, onEdit }: CarTableProps) => {
               <td className="p-3">R$ {Number(car.price).toFixed(2)}</td>
               <td className="p-3">{car.doorQuantity}</td>
               <td className="p-3">
-                {car.fuelType.charAt(0).toUpperCase() +
-                  car.fuelType.slice(1).toLowerCase()}
+                {fuelTypePt[car.fuelType] || "Desconhecido"}
               </td>
               <td className="p-3">
                 <div className="flex gap-2">
