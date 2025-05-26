@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import { Bike, Loader2, Inbox, Home, CarFront } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FilterBar } from "@/components/widgets/FilterBar";
+import { toast } from "sonner";
 
 export default function MotorcyclePage() {
   const { data: motorcycles, isLoading } = useMotorcycleData();
@@ -22,7 +23,9 @@ export default function MotorcyclePage() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState<IMotorcycleDTO | undefined>();
-  const [filteredMotorcycles, setFilteredMotorcycles] = useState<ICarDTO[]>([]);
+  const [filteredMotorcycles, setFilteredMotorcycles] = useState<
+    IMotorcycleDTO[]
+  >([]);
 
   useEffect(() => {
     if (motorcycles) setFilteredMotorcycles(motorcycles);
@@ -32,18 +35,61 @@ export default function MotorcyclePage() {
     if (selected?.id) {
       updateMutation.mutate(
         { id: selected.id, data: moto },
-        { onSuccess: () => setModalOpen(false) }
+        {
+          onSuccess: () => {
+            setModalOpen(false);
+            toast.success("Moto atualizada com sucesso!");
+          },
+          onError: () => {
+            toast.error("Erro ao atualizar a moto.");
+          },
+        }
       );
     } else {
       createMutation.mutate(moto, {
-        onSuccess: () => setModalOpen(false),
+        onSuccess: () => {
+          setModalOpen(false);
+          toast.success("Moto criada com sucesso!");
+        },
+        onError: () => {
+          toast.error("Erro ao criar a moto.");
+        },
       });
     }
     setSelected(undefined);
   };
 
   const handleDelete = (id: string) => {
-    deleteMutation.mutate(id);
+    toast.custom((t) => (
+      <div className="bg-zinc-900 text-white p-4 rounded-lg shadow-lg flex flex-col gap-3 w-[320px]">
+        <p className="text-sm font-semibold">
+          Deseja realmente excluir esta moto?
+        </p>
+        <div className="flex justify-end gap-2">
+          <Button variant="ghost" size="sm" onClick={() => toast.dismiss(t.id)}>
+            Cancelar
+          </Button>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => {
+              deleteMutation.mutate(id, {
+                onSuccess: () => {
+                  toast.success("Moto excluída com sucesso!");
+                  toast.dismiss(t.id);
+                },
+                onError: () => {
+                  toast.error("Erro ao excluir a moto.");
+                  toast.dismiss(t.id);
+                },
+              });
+            }}
+          >
+            Confirmar
+          </Button>
+        </div>
+      </div>
+    ));
   };
 
   const handleEdit = (moto: IMotorcycleDTO) => {

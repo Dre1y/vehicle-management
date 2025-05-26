@@ -99,7 +99,6 @@ export function MotorcycleModal({
           <Input
             placeholder="Ano de fabricação"
             name="year"
-            type="number"
             value={form.year}
             onChange={handleChange}
             maxLength={4}
