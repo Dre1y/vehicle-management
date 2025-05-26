@@ -1,16 +1,18 @@
 import type { IMotorcycleDTO } from "@/core/interfaces/IMotorcycleDTO";
-import { useDeleteMotorcycle } from "@/core/hooks/useMotorcycle";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
 interface MotorcycleTableProps {
   data: IMotorcycleDTO[];
   onEdit(motorcycle: IMotorcycleDTO): void;
+  onDelete(id: string): void;
 }
 
-export const MotorcycleTable = ({ data, onEdit }: MotorcycleTableProps) => {
-  const deleteMotorcycle = useDeleteMotorcycle();
-
+export const MotorcycleTable = ({
+  data,
+  onEdit,
+  onDelete,
+}: MotorcycleTableProps) => {
   return (
     <div className="p-4 overflow-x-auto">
       <table className="w-full table-auto border-collapse text-sm text-white">
@@ -45,7 +47,7 @@ export const MotorcycleTable = ({ data, onEdit }: MotorcycleTableProps) => {
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={() => deleteMotorcycle.mutate(moto.id)}
+                    onClick={() => onDelete(moto.id)}
                   >
                     <Trash2 size={16} />
                   </Button>
