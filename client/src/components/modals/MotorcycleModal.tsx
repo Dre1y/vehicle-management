@@ -101,6 +101,7 @@ export function MotorcycleModal({
             name="year"
             value={form.year}
             onChange={handleChange}
+            min={1886}
             maxLength={4}
             required
           />

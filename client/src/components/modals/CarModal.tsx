@@ -109,6 +109,7 @@ export const CarModal = ({
             placeholder="Ano de fabricação"
             value={year}
             onChange={(e) => setYear(e.target.value)}
+            min={1886}
             maxLength={4}
             required
           />

@@ -3,6 +3,7 @@ package com.company.api.DTOS;
 import java.math.BigDecimal;
 
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public class VehicleRequestDTO {
@@ -14,6 +15,7 @@ public class VehicleRequestDTO {
     private String manufacturer;
 
     @NotNull(message = "Ano é obrigatório")
+    @Min(value = 1886, message = "Ano deve ser maior ou igual a 1886")
     private Integer year;
 
     @NotNull(message = "Preço é obrigatório")
