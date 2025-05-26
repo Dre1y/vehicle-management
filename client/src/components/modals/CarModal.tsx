@@ -130,7 +130,8 @@ export const CarModal = ({ open, onClose, defaultValues }: CarModalProps) => {
             type="number"
             value={doorQuantity}
             onChange={(e) => setDoorQuantity(e.target.value)}
-            min={0}
+            min={2}
+            max={5}
             required
           />
           <Select value={fuelType} onValueChange={setFuelType}>

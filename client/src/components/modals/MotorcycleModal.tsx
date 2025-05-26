@@ -102,6 +102,7 @@ export function MotorcycleModal({
             type="number"
             value={form.year}
             onChange={handleChange}
+            maxLength={4}
             required
           />
           <Input
@@ -119,7 +120,8 @@ export function MotorcycleModal({
             type="number"
             value={form.engineDisplacement}
             onChange={handleChange}
-            min={0}
+            min={50}
+            max={2500}
             required
           />
           <Button
