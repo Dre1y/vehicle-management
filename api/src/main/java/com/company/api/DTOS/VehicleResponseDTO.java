@@ -7,7 +7,7 @@ public class VehicleResponseDTO {
     private String id;
     private String model;
     private String manufacturer;
-    private String year;
+    private Integer year;
     private BigDecimal price;
 
     public String getId() {
@@ -34,11 +34,11 @@ public class VehicleResponseDTO {
         this.manufacturer = manufacturer;
     }
 
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 

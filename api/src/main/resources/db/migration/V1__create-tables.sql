@@ -2,7 +2,7 @@ CREATE TABLE vehicle (
     id UUID PRIMARY KEY,
     model VARCHAR(100) NOT NULL,
     manufacturer VARCHAR(100) NOT NULL,
-    year CHAR(4) NOT NULL,
+    year INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL
 );
 

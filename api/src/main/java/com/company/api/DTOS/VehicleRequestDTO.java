@@ -14,7 +14,7 @@ public class VehicleRequestDTO {
     private String manufacturer;
 
     @NotNull(message = "Ano é obrigatório")
-    private String year;
+    private Integer year;
 
     @NotNull(message = "Preço é obrigatório")
     @DecimalMin(value = "0.0", inclusive = false, message = "Preço deve ser positivo")
@@ -36,11 +36,11 @@ public class VehicleRequestDTO {
         this.manufacturer = manufacturer;
     }
 
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
