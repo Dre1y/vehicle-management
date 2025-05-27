@@ -54,6 +54,8 @@ Ainda dentro da pasta /api no terminal:
 mvn spring-boot:run
 ```
 
+As tabelas serão criadas e dados iniciais inseridos no banco automaticamente.
+
 ### 5️⃣ Instalar Dependências do React
 
 Para entrar na pasta do Client, deixe o terminal anterior aberto rodando a API e abra um novo:
@@ -76,6 +78,8 @@ Disponível em:
 ```sh
 http://localhost:5173
 ```
+
+Acesse pelo navegador colando o link acima ou diretamente pelo terminal.
 
 ### 7️⃣ (Opcional) Visualizar rotas da API através do Swagger
 
