@@ -1,10 +1,12 @@
 package com.company.api.controllers;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,72 +31,97 @@ class MotorcycleControllerTest {
     @InjectMocks
     private MotorcycleController motorcycleController;
 
-    private UUID motorcycleId;
-    private MotorcycleRequestDTO motorcycleRequestDTO;
-    private MotorcycleResponseDTO motorcycleResponseDTO;
+    private UUID motoId;
+    private MotorcycleRequestDTO requestDTO;
+    private MotorcycleResponseDTO responseDTO;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        motorcycleId = UUID.randomUUID();
 
-        motorcycleRequestDTO = new MotorcycleRequestDTO();
-        motorcycleResponseDTO = new MotorcycleResponseDTO();
+        motoId = UUID.randomUUID();
+
+        requestDTO = new MotorcycleRequestDTO();
+        requestDTO.setModel("XRE 300");
+        requestDTO.setManufacturer("Honda");
+        requestDTO.setYear(2024);
+        requestDTO.setPrice(new BigDecimal("23500.00"));
+        requestDTO.setEngineDisplacement(300);
+
+        responseDTO = new MotorcycleResponseDTO();
+        responseDTO.setId(motoId.toString());
+        responseDTO.setModel("XRE 300");
+        responseDTO.setManufacturer("Honda");
+        responseDTO.setYear(2024);
+        responseDTO.setPrice(new BigDecimal("23500.00"));
+        responseDTO.setEngineDisplacement(300);
     }
 
     @Test
     void testCreate() {
-        when(motorcycleService.create(motorcycleRequestDTO)).thenReturn(motorcycleResponseDTO);
+        when(motorcycleService.create(requestDTO)).thenReturn(responseDTO);
 
-        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.create(motorcycleRequestDTO);
+        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.create(requestDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(motorcycleResponseDTO, response.getBody());
-        verify(motorcycleService).create(motorcycleRequestDTO);
+        assertNotNull(response.getBody());
+        assertEquals("XRE 300", response.getBody().getModel());
+        assertEquals(300, response.getBody().getEngineDisplacement());
+        verify(motorcycleService).create(requestDTO);
     }
 
     @Test
     void testGetById() {
-        when(motorcycleService.getById(motorcycleId)).thenReturn(motorcycleResponseDTO);
+        when(motorcycleService.getById(motoId)).thenReturn(responseDTO);
 
-        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.getById(motorcycleId);
+        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.getById(motoId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(motorcycleResponseDTO, response.getBody());
-        verify(motorcycleService).getById(motorcycleId);
+        assertEquals(motoId.toString(), response.getBody().getId());
+        verify(motorcycleService).getById(motoId);
     }
 
     @Test
     void testGetAll() {
-        List<MotorcycleResponseDTO> list = Arrays.asList(motorcycleResponseDTO, new MotorcycleResponseDTO());
+        MotorcycleResponseDTO moto2 = new MotorcycleResponseDTO();
+        moto2.setId(UUID.randomUUID().toString());
+        moto2.setModel("MT-03");
+        moto2.setManufacturer("Yamaha");
+        moto2.setYear(2023);
+        moto2.setPrice(new BigDecimal("28000.00"));
+        moto2.setEngineDisplacement(321);
+
+        List<MotorcycleResponseDTO> list = Arrays.asList(responseDTO, moto2);
+
         when(motorcycleService.getAll()).thenReturn(list);
 
         ResponseEntity<List<MotorcycleResponseDTO>> response = motorcycleController.getAll();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(list, response.getBody());
+        assertEquals(2, response.getBody().size());
+        assertEquals("MT-03", response.getBody().get(1).getModel());
         verify(motorcycleService).getAll();
     }
 
     @Test
     void testUpdate() {
-        when(motorcycleService.update(motorcycleId, motorcycleRequestDTO)).thenReturn(motorcycleResponseDTO);
+        when(motorcycleService.update(motoId, requestDTO)).thenReturn(responseDTO);
 
-        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.update(motorcycleId, motorcycleRequestDTO);
+        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.update(motoId, requestDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(motorcycleResponseDTO, response.getBody());
-        verify(motorcycleService).update(motorcycleId, motorcycleRequestDTO);
+        assertEquals("XRE 300", response.getBody().getModel());
+        verify(motorcycleService).update(motoId, requestDTO);
     }
 
     @Test
     void testDelete() {
-        doNothing().when(motorcycleService).delete(motorcycleId);
+        doNothing().when(motorcycleService).delete(motoId);
 
-        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.delete(motorcycleId);
+        ResponseEntity<MotorcycleResponseDTO> response = motorcycleController.delete(motoId);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
-        verify(motorcycleService).delete(motorcycleId);
+        verify(motorcycleService).delete(motoId);
     }
 }
