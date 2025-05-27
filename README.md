@@ -48,13 +48,15 @@ mvn install
 
 ### 4️⃣ Iniciar a API
 
+Ainda dentro da pasta /api no terminal:
+
 ```sh
 mvn spring-boot:run
 ```
 
 ### 5️⃣ Instalar Dependências do React
 
-Deixe o terminal anterior aberto e abra um novo:
+Para entrar na pasta do Client, deixe o terminal anterior aberto rodando a API e abra um novo:
 
 ```sh
 cd client
@@ -62,6 +64,8 @@ npm install
 ```
 
 ### 6️⃣ Iniciar a Aplicação
+
+Ainda dentro da pasta /client no terminal:
 
 ```sh
 npm run dev
@@ -74,6 +78,8 @@ http://localhost:5173
 ```
 
 ### 7️⃣ (Opcional) Visualizar rotas da API através do Swagger
+
+Disponível em:
 
 ```sh
 http://localhost:8080/swagger-ui.html
